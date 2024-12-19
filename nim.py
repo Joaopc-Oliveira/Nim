@@ -125,9 +125,6 @@ class NimAI():
         new_q = old_q + self.alpha * ((reward + future_rewards) - old_q)
         self.q[key] = new_q
 
-
-
-
     def best_future_reward(self, state):
         """
         Given a state `state`, consider all possible `(state, action)`
@@ -138,7 +135,13 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        raise NotImplementedError
+        available_actions = Nim.available_actions(state)
+        if not available_actions:
+            return 0.0
+        max_q = max(self.get_q_value(state, action) for action in available_actions)
+        return max_q
+
+
 
     def choose_action(self, state, epsilon=True):
         """
